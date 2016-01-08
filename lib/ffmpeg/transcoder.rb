@@ -56,7 +56,7 @@ module FFMPEG
     def transcode_movie
       @command = "#{FFMPEG.ffmpeg_binary} -y -i #{Shellwords.escape(@movie.path)} #{@raw_options} #{Shellwords.escape(@output_file)}"
       if @raw_options[:screenshot]
-        @command = "#{FFMPEG.ffmpeg_binary} -ss #{@raw_options[:seek_time]} -y -i #{Shellwords.escape(@movie.path)} #{@raw_options.select{|x| x != :seek_time}} #{Shellwords.escape(@output_file)}"
+        @command = "#{FFMPEG.ffmpeg_binary} -ss #{@raw_options[:seek_time]} -y -i #{Shellwords.escape(@movie.path)} #{EncodingOptions.new(@raw_options.select{|x| x != :seek_time})} #{Shellwords.escape(@output_file)}"
       end
       FFMPEG.logger.info("Running transcoding...\n#{@command}\n")
       @output = ""
